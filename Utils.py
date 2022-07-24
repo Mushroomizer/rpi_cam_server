@@ -1,7 +1,7 @@
 import logging
 import os
 
-def GetHtmlFromPageName(pageName : str,directory : str = "./html") -> str:
+def get_html_from_page_name(pageName : str,directory : str = "./html") -> str:
     pageName = pageName.lstrip("/")
     pageName = pageName.rstrip("/")
     directory = directory.rstrip("/")
