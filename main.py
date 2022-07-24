@@ -4,8 +4,6 @@
 # Run this script, then point a web browser at http:<this-ip-address>:8000
 # Note: needs simplejpeg to be installed (pip3 install simplejpeg).
 
-
-from asyncio.log import logger
 import logging
 from custom_camera import Cam
 from streaming_server import StreamingServer,server
@@ -50,7 +48,6 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
         else:
             self.send_error(404)
             self.end_headers()
-
 
 
 
