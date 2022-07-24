@@ -14,12 +14,13 @@ from Utils import GetHtmlFromPageName
 class StreamingHandler(server.BaseHTTPRequestHandler):
 
     def do_GET(self):
-        content = GetHtmlFromPageName(self.path).encode('utf-8')
+        
         if self.path == '/':
             self.send_response(301)
             self.send_header('Location', '/index.html')
             self.end_headers()
         elif self.path == '/index.html':
+            content = GetHtmlFromPageName(self.path).encode('utf-8')
             self.send_response(200)
             self.send_header('Content-Type', 'text/html')
             self.send_header('Content-Length', len(content))
