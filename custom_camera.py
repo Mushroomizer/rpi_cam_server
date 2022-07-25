@@ -23,6 +23,6 @@ class Cam:
         return output
 
     def __del__(self):
-        self.picam2.stop_recording()
+        self.picam2.close()
 
 
