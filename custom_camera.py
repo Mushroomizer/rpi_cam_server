@@ -1,6 +1,6 @@
 from picamera2 import Picamera2
 from picamera2.encoders import JpegEncoder
-from picamera2.outputs import FileOutput, Quality
+from picamera2.outputs import FileOutput
 
 from streaming_server import StreamingOutput
 import os
@@ -19,7 +19,7 @@ class Cam:
 
     def jpeg_streaming_output(self) -> StreamingOutput:
         output = StreamingOutput()
-        self.picam2.start_recording(JpegEncoder(), FileOutput(output),quality=Quality.VERY_LOW)
+        self.picam2.start_recording(JpegEncoder(), FileOutput(output))
         return output
 
     def __del__(self):
