@@ -73,7 +73,6 @@ def setupCamera():
     global ccam, useNoir, output
     try:
         ccam.__del__()
-        time.sleep(2)
     except:
         logging.warning("Could not release ccam")
     ccam = Cam(useNoir=useNoir)
