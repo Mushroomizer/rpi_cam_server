@@ -24,5 +24,6 @@ class Cam:
 
     def __del__(self):
         self.picam2.close()
+        self.picam2.__del__()
 
 
