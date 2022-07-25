@@ -4,8 +4,10 @@
 # Run this script, then point a web browser at http:<this-ip-address>:8000
 # Note: needs simplejpeg to be installed (pip3 install simplejpeg).
 
+from concurrent.futures import thread
 import logging
 import socketserver
+import time
 
 from custom_camera import Cam
 from streaming_server import StreamingServer, server
@@ -71,6 +73,7 @@ def setupCamera():
     global ccam, useNoir, output
     try:
         ccam.__del__()
+        time.sleep(2)
     except:
         logging.warning("Could not release ccam")
     ccam = Cam(useNoir=useNoir)
