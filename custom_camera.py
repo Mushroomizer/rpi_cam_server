@@ -7,11 +7,10 @@ import os
 
 class Cam:
     def __init__(self) -> None:
-        # working_dir = os.path.dirname(__file__)
-        # self.tuning = Picamera2.load_tuning_file("camera_noir.json",os.path.join(working_dir, "./config"))
-        # self.tuning["rpi.agc"]["exposure_modes"]["normal"] = {"shutter": [100, 66666], "gain": [1.0, 8.0]}
-        # self.picam2 = Picamera2(tuning=self.tuning)
-        self.picam2 = Picamera2()
+        working_dir = os.path.dirname(__file__)
+        self.tuning = Picamera2.load_tuning_file("camera_noir.json",os.path.join(working_dir, "./config"))
+        self.tuning["rpi.agc"]["exposure_modes"]["normal"] = {"shutter": [100, 66666], "gain": [1.0, 8.0]}
+        self.picam2 = Picamera2(tuning=self.tuning)
         self.picam2.configure(self.picam2.create_video_configuration(main={"size": (1280, 960)}))
 
     def jpeg_streaming_output(self) -> StreamingOutput:
