@@ -16,7 +16,7 @@ class Cam:
 
     def jpeg_streaming_output(self) -> StreamingOutput:
         output = StreamingOutput()
-        self.picam2.start_recording(JpegEncoder(), FileOutput(output))
+        self.picam2.start_recording(JpegEncoder(), FileOutput(output),quality=Quality.LOW)
         return output
 
     def __del__(self):
