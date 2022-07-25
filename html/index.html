@@ -1,13 +1,29 @@
 <html>
+
 <head>
-<title>RPI CAM SERVER</title>
-<style>
-    body{
-        background-color: #3d3d3d;
-    }
-</style>
+    <title>RPI CAM SERVER</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        body {
+            background-color: #3d3d3d;
+        }
+    </style>
+    <script>
+        function setProfile() {
+            $.ajax({
+                url: "toggle_profile",
+                method: "GET",
+                context: document.body
+            }).done(function () {
+               console.log("Set profile called")
+            });
+        }
+    </script>
 </head>
+
 <body>
-<img src="stream.mjpg" width="1024" height="768" />
+    <img src="stream.mjpg" width="1024" height="768" />
+    <input type="button" onclick="setProfile()" value="">Profile</button>
 </body>
+
 </html>
