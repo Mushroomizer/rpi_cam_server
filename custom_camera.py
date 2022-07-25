@@ -12,7 +12,7 @@ class Cam:
         # self.tuning["rpi.agc"]["exposure_modes"]["normal"] = {"shutter": [100, 66666], "gain": [1.0, 8.0]}
         # self.picam2 = Picamera2(tuning=self.tuning)
         self.picam2 = Picamera2()
-        self.picam2.configure(self.picam2.create_video_configuration(main={"size": (1280, 960)}))
+        self.picam2.configure(self.picam2.create_video_configuration(main={"size": (1024, 768)}))
 
     def jpeg_streaming_output(self) -> StreamingOutput:
         output = StreamingOutput()
