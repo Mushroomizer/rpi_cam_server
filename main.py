@@ -35,7 +35,6 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             else:
                 useNoir = True
             setupCamera()
-
             self.send_response(200)
             self.send_header("Content-Type", "text/html")
             self.end_headers()

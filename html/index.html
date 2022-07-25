@@ -16,6 +16,9 @@
                 context: document.body
             }).done(function () {
                console.log("Set profile called")
+               setTimeout(() => {
+                location.reload(false) 
+               }, 1000);
             });
         }
     </script>
