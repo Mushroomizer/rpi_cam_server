@@ -6,6 +6,7 @@
 
 import logging
 import socketserver
+
 from custom_camera import Cam
 from streaming_server import StreamingServer, server
 from utils import get_html_from_page_name
@@ -13,16 +14,8 @@ from utils import get_html_from_page_name
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
 
-    def __init__(self, request: bytes, client_address: tuple[str, int], server: socketserver.BaseServer) -> None:
-        self.useNoir = False
-        self.setupCamera()
-        super().__init__(request, client_address, server)
-    
-    def setupCamera(self):
-        self.ccam = Cam(useNoir=self.useNoir)
-        self.output = self.ccam.jpeg_streaming_output()
-
     def do_GET(self):
+        global output,useNoir
         if self.path == "/":
             self.send_response(301)
             self.send_header("Location", "/index.html")
@@ -35,11 +28,11 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(content)
         elif self.path == "/toggle_profile":
-            if(self.useNoir):
-                self.useNoir = False
+            if(useNoir):
+                useNoir = False
             else:
-                self.useNoir = True
-            self.setupCamera()
+                useNoir = True
+            setupCamera()
 
             self.send_response(200)
             self.send_header("Content-Type", "text/html")
@@ -57,9 +50,9 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.end_headers()
             try:
                 while True:
-                    with self.output.condition:
-                        self.output.condition.wait()
-                        frame = self.output.frame
+                    with output.condition:
+                        output.condition.wait()
+                        frame = output.frame
                     self.wfile.write(b"--FRAME\r\n")
                     self.send_header("Content-Type", "image/jpeg")
                     self.send_header("Content-Length", len(frame))
@@ -73,6 +66,20 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
         else:
             self.send_error(404)
             self.end_headers()
+
+def setupCamera():
+    global ccam, useNoir, output
+    try:
+        ccam.__del__()
+    except:
+        logging.warning("Could not release ccam")
+    ccam = Cam(useNoir=useNoir)
+    output = ccam.jpeg_streaming_output()
+
+ccam = 0
+output = 0
+useNoir = False
+setupCamera()
 
 try:
     address = ("", 8000)
