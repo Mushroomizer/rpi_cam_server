@@ -10,12 +10,12 @@ class Cam:
     def __init__(self,useNoir:bool = False) -> None:
         working_dir = os.path.dirname(__file__)
         if(useNoir):
-            logging.warn("noir")
+            logging.debug("noir")
             self.tuning = Picamera2.load_tuning_file("camera_noir.json",os.path.join(working_dir, "./config"))
             self.tuning["rpi.agc"]["exposure_modes"]["normal"] = {"shutter": [100, 66666], "gain": [1.0, 8.0]}
             self.picam2 = Picamera2(tuning=self.tuning)
         else:
-            logging.warn("no noir")
+            logging.debug("no noir")
             self.picam2 = Picamera2()
         
         self.picam2.configure(self.picam2.create_video_configuration(main={"size": (1024, 768)}))

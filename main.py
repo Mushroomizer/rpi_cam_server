@@ -15,9 +15,8 @@ from utils import get_html_from_page_name
 
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
-
     def do_GET(self):
-        global output,useNoir
+        global output, useNoir
         if self.path == "/":
             self.send_response(301)
             self.send_header("Location", "/index.html")
@@ -30,7 +29,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(content)
         elif self.path == "/toggle_profile":
-            if(useNoir):
+            if useNoir:
                 useNoir = False
             else:
                 useNoir = True
@@ -48,7 +47,11 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             )
             self.end_headers()
             try:
+                lastNoir = useNoir
                 while True:
+                    if lastNoir != useNoir:
+                        time.sleep(2000)
+                        lastNoir = useNoir
                     with output.condition:
                         output.condition.wait()
                         frame = output.frame
@@ -66,6 +69,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
             self.send_error(404)
             self.end_headers()
 
+
 def setupCamera():
     global ccam, useNoir, output
     try:
@@ -74,6 +78,7 @@ def setupCamera():
         logging.warning("Could not release ccam")
     ccam = Cam(useNoir=useNoir)
     output = ccam.jpeg_streaming_output()
+
 
 ccam = 0
 output = 0
